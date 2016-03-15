@@ -1,0 +1,7 @@
+---
+check_interval_seconds: 1
+http_server_port: 8000
+check_processes:
+  - rsyslogd
+  - chrome
+
