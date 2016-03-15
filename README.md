@@ -10,11 +10,14 @@ For example, to export run statisics for a given list of system daemons.
 Usage
 =====
 
-* Modify config.yml.example and copy to config.yml
+* Modify config.yml
 * Start the serivce
 
     ./generic_process_exporter.py /path/to/config.yml
+    
+* From a browser (or something like curl) check the metrics on the host with your chosen port.
 
+Configuration
 
 Notes
 =====
