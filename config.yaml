@@ -1,7 +1,9 @@
 ---
-check_interval_seconds: 1
-http_server_port: 8000
+# The period in seconds between scraping metrics
+check_interval_seconds: 1 
+http_server_port: 8000    
+# List of processes which are checked (by name) 
 check_processes:
   - rsyslogd
   - chrome
-
+  - node_exporter
