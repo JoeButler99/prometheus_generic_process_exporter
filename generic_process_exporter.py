@@ -19,18 +19,26 @@ PROCESS_TIME = Summary('gpe_processing_seconds', 'Time spent processing request'
 
 def quit_script(msg,exit_code):
     print msg
-    sys.exit(1)
+    sys.exit(exit_code)
 
 
 @PROCESS_TIME.time()
 def process(lc):
     for p in lc.config['check_processes']:
-        num_processes = 0
-        
+        num_procs = 0
+        total_threads = 0
+        context_switch_vol = 0
+        context_switch_invol = 0
         for pid in psutil.process_iter(): # TODO - collect this first for faster performance?
             if pid.name() == p:
-                num_processes += 1
-        lc.metrics[p]['num_procs'].set(num_processes)
+                num_procs += 1
+                total_threads += pid.num_threads()
+                context_switch_vol += pid.num_ctx_switches()[0]
+                context_switch_invol += pid.num_ctx_switches()[1]
+        lc.metrics[p]['num_procs'].set(num_procs)
+        lc.metrics[p]['total_threads'].set(total_threads)
+        lc.metrics[p]['context_switch_vol'].set(context_switch_vol)
+        lc.metrics[p]['context_switch_invol'].set(context_switch_invol)
 
 class LocalConfig:
     def __init__(self,config_file):
@@ -61,7 +69,13 @@ class LocalConfig:
     def build_metrics(self):
         for p in self.config['check_processes']:
             self.metrics[p] = {}
-            self.metrics[p]['num_procs'] = Gauge('{0}_num_procs'.format(p),'Number of Processes')
+            self.metrics[p]['num_procs'] = Gauge('{0}_num_procs'.format(p),'Number of {0} Processes'.format(p))
+            self.metrics[p]['total_threads'] = Gauge('{0}_total_threads'.format(p),
+                                                     'Number of threads - (all {0} processes)'.format(p))
+            self.metrics[p]['context_switch_vol'] = Gauge('{0}_context_switch_vol'.format(p),
+                                                          'Voluntary context switches - (all {0} processes)'.format(p))
+            self.metrics[p]['context_switch_invol'] = Gauge('{0}_context_switch_invol'.format(p),
+                                                            'Involuntary context switches - (all {0} processes)'.format(p))
 
 
 #

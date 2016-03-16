@@ -6,6 +6,11 @@ For example, to export run statisics for a given list of system daemons.
 
 *** This is still a work in progress ***
 
+Requirements
+============
+
+* prometheus_client
+* psutil
 
 Usage
 =====
@@ -18,6 +23,9 @@ Usage
 * From a browser (or something like curl) check the metrics on the host with your chosen port.
 
 Configuration
+=============
+
+* 
 
 Notes
 =====
@@ -29,3 +37,5 @@ Todo
 ====
 
 * Better validation of the check_processes list
+* requirements.txt
+* Move cs away from gauge to counter?
