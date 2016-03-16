@@ -30,7 +30,9 @@ Configuration
 Notes
 =====
  
-* Build on Ubuntu, for Ubuntu. I expect other types of Linux will also work well
+Built on Ubuntu, for Ubuntu.
+That said I expect other types of Linux will also work well. 
+This will possibly even work on windows, as the library doing most of the lifting is the awesome psutil.
 
 
 Todo
@@ -39,3 +41,6 @@ Todo
 * Better validation of the check_processes list
 * requirements.txt
 * Move cs away from gauge to counter?
+
+
+* psutils:  num_fds, io_counters, cpu_percent, cpu_times, memory_info, open_files, connections
